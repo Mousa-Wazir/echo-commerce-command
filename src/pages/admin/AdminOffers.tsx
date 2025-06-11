@@ -1,9 +1,7 @@
-
 import React, { useState } from 'react';
 import { AdminLayout } from '../../components/AdminLayout';
 import { Plus, Edit, Trash2, Eye } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-
 const AdminOffers = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,46 +15,40 @@ const AdminOffers = () => {
     seller: '',
     maxUses: ''
   });
-
-  const offers = [
-    {
-      id: 1,
-      code: 'TECH20',
-      discount: '20%',
-      type: 'percentage',
-      applyTo: 'Electronics',
-      validFrom: '2024-01-01',
-      validTo: '2024-12-31',
-      used: 45,
-      maxUses: 100,
-      status: 'active'
-    },
-    {
-      id: 2,
-      code: 'NEWUSER50',
-      discount: '$50',
-      type: 'fixed',
-      applyTo: 'All Products',
-      validFrom: '2024-01-01',
-      validTo: '2024-06-30',
-      used: 12,
-      maxUses: 50,
-      status: 'active'
-    },
-    {
-      id: 3,
-      code: 'PHOTO15',
-      discount: '15%',
-      type: 'percentage',
-      applyTo: 'Photography',
-      validFrom: '2024-01-01',
-      validTo: '2024-03-31',
-      used: 8,
-      maxUses: 25,
-      status: 'expired'
-    }
-  ];
-
+  const offers = [{
+    id: 1,
+    code: 'TECH20',
+    discount: '20%',
+    type: 'percentage',
+    applyTo: 'Electronics',
+    validFrom: '2024-01-01',
+    validTo: '2024-12-31',
+    used: 45,
+    maxUses: 100,
+    status: 'active'
+  }, {
+    id: 2,
+    code: 'NEWUSER50',
+    discount: '$50',
+    type: 'fixed',
+    applyTo: 'All Products',
+    validFrom: '2024-01-01',
+    validTo: '2024-06-30',
+    used: 12,
+    maxUses: 50,
+    status: 'active'
+  }, {
+    id: 3,
+    code: 'PHOTO15',
+    discount: '15%',
+    type: 'percentage',
+    applyTo: 'Photography',
+    validFrom: '2024-01-01',
+    validTo: '2024-03-31',
+    used: 8,
+    maxUses: 25,
+    status: 'expired'
+  }];
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Creating offer:', formData);
@@ -73,30 +65,21 @@ const AdminOffers = () => {
       maxUses: ''
     });
   };
-
   const getStatusBadge = (status: string) => {
     const statusClasses = {
       active: 'bg-green-100 text-green-800',
       expired: 'bg-red-100 text-red-800',
       scheduled: 'bg-blue-100 text-blue-800'
     };
-    
-    return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusClasses[status as keyof typeof statusClasses]}`}>
+    return <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusClasses[status as keyof typeof statusClasses]}`}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
+      </span>;
   };
-
-  return (
-    <AdminLayout>
+  return <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Offers & Promotions</h1>
-          <Button 
-            onClick={() => setShowCreateForm(true)}
-            className="flex items-center gap-2"
-          >
+          <h1 className="text-xl md:text-3xl font-bold text-gray-900\n">Offers & Promotions</h1>
+          <Button onClick={() => setShowCreateForm(true)} className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
             Create Offer
           </Button>
@@ -139,50 +122,39 @@ const AdminOffers = () => {
         </div>
 
         {/* Create Offer Form */}
-        {showCreateForm && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        {showCreateForm && <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h3 className="text-lg font-semibold mb-4">Create New Offer</h3>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Offer Code</label>
-                <input
-                  type="text"
-                  value={formData.code}
-                  onChange={(e) => setFormData({...formData, code: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                  placeholder="e.g., TECH20"
-                  required
-                />
+                <input type="text" value={formData.code} onChange={e => setFormData({
+              ...formData,
+              code: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" placeholder="e.g., TECH20" required />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Discount</label>
-                <input
-                  type="text"
-                  value={formData.discount}
-                  onChange={(e) => setFormData({...formData, discount: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                  placeholder="e.g., 20 or 50"
-                  required
-                />
+                <input type="text" value={formData.discount} onChange={e => setFormData({
+              ...formData,
+              discount: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" placeholder="e.g., 20 or 50" required />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Discount Type</label>
-                <select
-                  value={formData.type}
-                  onChange={(e) => setFormData({...formData, type: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                >
+                <select value={formData.type} onChange={e => setFormData({
+              ...formData,
+              type: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900">
                   <option value="percentage">Percentage (%)</option>
                   <option value="fixed">Fixed Amount ($)</option>
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Apply To</label>
-                <select
-                  value={formData.applyTo}
-                  onChange={(e) => setFormData({...formData, applyTo: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                >
+                <select value={formData.applyTo} onChange={e => setFormData({
+              ...formData,
+              applyTo: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900">
                   <option value="all">All Products</option>
                   <option value="category">Specific Category</option>
                   <option value="seller">Specific Seller</option>
@@ -190,47 +162,33 @@ const AdminOffers = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Valid From</label>
-                <input
-                  type="date"
-                  value={formData.validFrom}
-                  onChange={(e) => setFormData({...formData, validFrom: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                  required
-                />
+                <input type="date" value={formData.validFrom} onChange={e => setFormData({
+              ...formData,
+              validFrom: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" required />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Valid To</label>
-                <input
-                  type="date"
-                  value={formData.validTo}
-                  onChange={(e) => setFormData({...formData, validTo: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                  required
-                />
+                <input type="date" value={formData.validTo} onChange={e => setFormData({
+              ...formData,
+              validTo: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" required />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Max Uses</label>
-                <input
-                  type="number"
-                  value={formData.maxUses}
-                  onChange={(e) => setFormData({...formData, maxUses: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-                  placeholder="e.g., 100"
-                />
+                <input type="number" value={formData.maxUses} onChange={e => setFormData({
+              ...formData,
+              maxUses: e.target.value
+            })} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" placeholder="e.g., 100" />
               </div>
               <div className="md:col-span-2 flex gap-2">
                 <Button type="submit">Create Offer</Button>
-                <Button 
-                  type="button" 
-                  variant="outline"
-                  onClick={() => setShowCreateForm(false)}
-                >
+                <Button type="button" variant="outline" onClick={() => setShowCreateForm(false)}>
                   Cancel
                 </Button>
               </div>
             </form>
-          </div>
-        )}
+          </div>}
 
         {/* Offers Table */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -248,8 +206,7 @@ const AdminOffers = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {offers.map((offer) => (
-                  <tr key={offer.id} className="hover:bg-gray-50">
+                {offers.map(offer => <tr key={offer.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{offer.code}</div>
                     </td>
@@ -275,15 +232,12 @@ const AdminOffers = () => {
                         </button>
                       </div>
                     </td>
-                  </tr>
-                ))}
+                  </tr>)}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminOffers;
