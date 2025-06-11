@@ -1,15 +1,15 @@
 
 import React from 'react';
 import { 
-  Dashboard, 
-  Analytics, 
+  LayoutDashboard, 
+  PieChart, 
   Package, 
-  Warehouse, 
-  ShoppingCart, 
-  TrendingUp, 
-  Gift, 
-  Users, 
-  Mail, 
+  Grid2x2, 
+  File, 
+  Activity, 
+  Book, 
+  User, 
+  Bell, 
   Settings,
   X
 } from 'lucide-react';
@@ -22,15 +22,15 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: Dashboard },
-  { id: 'analytics', label: 'Analytics', icon: Analytics },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'analytics', label: 'Analytics', icon: PieChart },
   { id: 'products', label: 'Products', icon: Package },
-  { id: 'inventory', label: 'Inventory', icon: Warehouse },
-  { id: 'orders', label: 'Orders', icon: ShoppingCart },
-  { id: 'sales', label: 'Sales', icon: TrendingUp },
-  { id: 'offers', label: 'Offers', icon: Gift },
-  { id: 'customers', label: 'Customers', icon: Users },
-  { id: 'newsletter', label: 'Newsletter', icon: Mail },
+  { id: 'inventory', label: 'Inventory', icon: Grid2x2 },
+  { id: 'orders', label: 'Orders', icon: File },
+  { id: 'sales', label: 'Sales', icon: Activity },
+  { id: 'offers', label: 'Offers', icon: Book },
+  { id: 'customers', label: 'Customers', icon: User },
+  { id: 'newsletter', label: 'Newsletter', icon: Bell },
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
