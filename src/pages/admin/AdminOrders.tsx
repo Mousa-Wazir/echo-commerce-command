@@ -1,56 +1,48 @@
-
 import React, { useState } from 'react';
 import { AdminLayout } from '../../components/AdminLayout';
 import { Search, Filter, Eye, ArrowLeft } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-
 const AdminOrders = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
-
-  const orders = [
-    {
-      id: 'ORD-001',
-      customer: 'John Smith',
-      customerEmail: 'john@example.com',
-      product: 'MacBook Pro 16" M2',
-      seller: 'TechRentals Pro',
-      status: 'delivered',
-      total: '$267.00',
-      date: '2024-01-15',
-      rentalPeriod: '3 days',
-      deliveryAddress: '123 Main St, New York, NY 10001',
-      image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400'
-    },
-    {
-      id: 'ORD-002',
-      customer: 'Sarah Johnson',
-      customerEmail: 'sarah@example.com',
-      product: 'Canon EOS R5 Camera',
-      seller: 'PhotoGear Rentals',
-      status: 'pending',
-      total: '$375.00',
-      date: '2024-01-14',
-      rentalPeriod: '3 days',
-      deliveryAddress: '456 Oak Ave, Los Angeles, CA 90210',
-      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400'
-    },
-    {
-      id: 'ORD-003',
-      customer: 'Mike Wilson',
-      customerEmail: 'mike@example.com',
-      product: 'Gaming Setup Complete',
-      seller: 'GameZone Rentals',
-      status: 'cancelled',
-      total: '$150.00',
-      date: '2024-01-13',
-      rentalPeriod: '2 days',
-      deliveryAddress: '789 Pine St, Chicago, IL 60601',
-      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400'
-    }
-  ];
-
+  const orders = [{
+    id: 'ORD-001',
+    customer: 'John Smith',
+    customerEmail: 'john@example.com',
+    product: 'MacBook Pro 16" M2',
+    seller: 'TechRentals Pro',
+    status: 'delivered',
+    total: '$267.00',
+    date: '2024-01-15',
+    rentalPeriod: '3 days',
+    deliveryAddress: '123 Main St, New York, NY 10001',
+    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400'
+  }, {
+    id: 'ORD-002',
+    customer: 'Sarah Johnson',
+    customerEmail: 'sarah@example.com',
+    product: 'Canon EOS R5 Camera',
+    seller: 'PhotoGear Rentals',
+    status: 'pending',
+    total: '$375.00',
+    date: '2024-01-14',
+    rentalPeriod: '3 days',
+    deliveryAddress: '456 Oak Ave, Los Angeles, CA 90210',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400'
+  }, {
+    id: 'ORD-003',
+    customer: 'Mike Wilson',
+    customerEmail: 'mike@example.com',
+    product: 'Gaming Setup Complete',
+    seller: 'GameZone Rentals',
+    status: 'cancelled',
+    total: '$150.00',
+    date: '2024-01-13',
+    rentalPeriod: '2 days',
+    deliveryAddress: '789 Pine St, Chicago, IL 60601',
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400'
+  }];
   const getStatusBadge = (status: string) => {
     const statusClasses = {
       pending: 'bg-yellow-100 text-yellow-800',
@@ -58,32 +50,20 @@ const AdminOrders = () => {
       cancelled: 'bg-red-100 text-red-800',
       processing: 'bg-blue-100 text-blue-800'
     };
-    
-    return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusClasses[status as keyof typeof statusClasses]}`}>
+    return <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusClasses[status as keyof typeof statusClasses]}`}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
+      </span>;
   };
-
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         order.product.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = order.id.toLowerCase().includes(searchTerm.toLowerCase()) || order.customer.toLowerCase().includes(searchTerm.toLowerCase()) || order.product.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
-
   if (selectedOrder) {
-    return (
-      <AdminLayout>
+    return <AdminLayout>
         <div className="space-y-6">
           <div className="flex items-center gap-4">
-            <Button
-              variant="outline"
-              onClick={() => setSelectedOrder(null)}
-              className="flex items-center gap-2"
-            >
+            <Button variant="outline" onClick={() => setSelectedOrder(null)} className="flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Back to Orders
             </Button>
@@ -134,11 +114,7 @@ const AdminOrders = () => {
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                 <h3 className="text-lg font-semibold mb-4">Product Details</h3>
                 <div className="flex items-center space-x-4 mb-4">
-                  <img 
-                    src={selectedOrder.image} 
-                    alt={selectedOrder.product}
-                    className="w-16 h-16 object-cover rounded-lg"
-                  />
+                  <img src={selectedOrder.image} alt={selectedOrder.product} className="w-16 h-16 object-cover rounded-lg" />
                   <div>
                     <h4 className="font-medium">{selectedOrder.product}</h4>
                     <p className="text-gray-600">Seller: {selectedOrder.seller}</p>
@@ -157,12 +133,10 @@ const AdminOrders = () => {
                     <span>Processing</span>
                     <span className="text-sm text-gray-500">{selectedOrder.date}</span>
                   </div>
-                  {selectedOrder.status === 'delivered' && (
-                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                  {selectedOrder.status === 'delivered' && <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                       <span>Delivered</span>
                       <span className="text-sm text-gray-500">{selectedOrder.date}</span>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </div>
 
@@ -173,15 +147,12 @@ const AdminOrders = () => {
             </div>
           </div>
         </div>
-      </AdminLayout>
-    );
+      </AdminLayout>;
   }
-
-  return (
-    <AdminLayout>
+  return <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Orders Management</h1>
+          <h1 className="text-xl md:text-3xl font-bold text-gray-900\n">Orders Management</h1>
         </div>
 
         {/* Stats Cards */}
@@ -225,20 +196,10 @@ const AdminOrders = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search orders..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-              />
+              <input type="text" placeholder="Search orders..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900" />
             </div>
             <div className="flex gap-2">
-              <select 
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
-              >
+              <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900">
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
                 <option value="processing">Processing</option>
@@ -265,8 +226,7 @@ const AdminOrders = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50">
+                {filteredOrders.map(order => <tr key={order.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.customer}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -279,22 +239,16 @@ const AdminOrders = () => {
                     <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(order.status)}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.total}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button 
-                        onClick={() => setSelectedOrder(order)}
-                        className="text-blue-600 hover:text-blue-900 p-1 rounded"
-                      >
+                      <button onClick={() => setSelectedOrder(order)} className="text-blue-600 hover:text-blue-900 p-1 rounded">
                         <Eye className="w-4 h-4" />
                       </button>
                     </td>
-                  </tr>
-                ))}
+                  </tr>)}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminOrders;
