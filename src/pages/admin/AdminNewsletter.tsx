@@ -69,7 +69,7 @@ const AdminNewsletter = () => {
   return <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Newsletter Management</h1>
+          <h1 className="text-xl md:text-3xl font-bold text-gray-900\n">Newsletter Management</h1>
           <Button onClick={() => setShowCreateForm(true)} className="flex items-center gap-1 px-2 py-1 text-sm md:gap-2 md:px-4 md:py-2 md:text-base text-white rounded bg-slate-900 hover:bg-slate-800">
             <Plus className="w-4 h-4" />
             Create Campaign
