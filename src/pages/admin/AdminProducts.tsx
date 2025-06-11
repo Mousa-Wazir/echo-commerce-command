@@ -1,41 +1,84 @@
 
 import React, { useState } from 'react';
 import { AdminLayout } from '../../components/AdminLayout';
-import { Search, Filter, Eye, Check, X, Trash2 } from 'lucide-react';
+import { Search, Filter, Eye, Check, X, Trash2, Plus, ArrowLeft } from 'lucide-react';
+import { Button } from '../../components/ui/button';
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [filterCategory, setFilterCategory] = useState('all');
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const products = [
     {
       id: 1,
-      name: 'MacBook Pro 16"',
-      seller: 'TechStore Inc.',
+      name: 'MacBook Pro 16" M2',
+      seller: 'TechRentals Pro',
       category: 'Electronics',
       status: 'pending',
-      price: '$2,499',
-      image: '/placeholder.svg'
+      price: '$89/day',
+      description: 'Latest MacBook Pro with M2 chip, perfect for creative professionals and developers.',
+      duration: '1-30 days',
+      stock: 5,
+      images: [
+        'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400',
+        'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400'
+      ],
+      reviews: 4.8,
+      reportCount: 0
     },
     {
       id: 2,
-      name: 'Wedding Dress',
-      seller: 'Fashion Hub',
-      category: 'Fashion',
+      name: 'Canon EOS R5 Camera',
+      seller: 'PhotoGear Rentals',
+      category: 'Photography',
       status: 'approved',
-      price: '$899',
-      image: '/placeholder.svg'
+      price: '$125/day',
+      description: 'Professional mirrorless camera with 45MP full-frame sensor and 8K video recording.',
+      duration: '1-14 days',
+      stock: 3,
+      images: [
+        'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400'
+      ],
+      reviews: 4.9,
+      reportCount: 0
     },
     {
       id: 3,
-      name: 'Professional Camera',
-      seller: 'Photo Rentals',
-      category: 'Electronics',
+      name: 'Elegant Wedding Dress',
+      seller: 'Bridal Dreams',
+      category: 'Fashion',
+      status: 'approved',
+      price: '$299/day',
+      description: 'Stunning A-line wedding dress with intricate lace details and cathedral train.',
+      duration: '1-3 days',
+      stock: 1,
+      images: [
+        'https://images.unsplash.com/photo-1594736797933-d0d02da2ad7c?w=400'
+      ],
+      reviews: 5.0,
+      reportCount: 0
+    },
+    {
+      id: 4,
+      name: 'Gaming Setup Complete',
+      seller: 'GameZone Rentals',
+      category: 'Gaming',
       status: 'rejected',
-      price: '$1,299',
-      image: '/placeholder.svg'
+      price: '$75/day',
+      description: 'Complete gaming setup with RTX 4080, mechanical keyboard, gaming mouse and monitor.',
+      duration: '1-7 days',
+      stock: 2,
+      images: [
+        'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400'
+      ],
+      reviews: 4.6,
+      reportCount: 2
     }
   ];
+
+  const categories = ['all', 'Electronics', 'Photography', 'Fashion', 'Gaming', 'Home & Garden', 'Sports'];
 
   const getStatusBadge = (status: string) => {
     const statusClasses = {
@@ -51,14 +94,107 @@ const AdminProducts = () => {
     );
   };
 
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.seller.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || product.status === filterStatus;
+    const matchesCategory = filterCategory === 'all' || product.category === filterCategory;
+    return matchesSearch && matchesStatus && matchesCategory;
+  });
+
+  if (selectedProduct) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setSelectedProduct(null)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Products
+            </Button>
+            <h1 className="text-3xl font-bold text-gray-900">{selectedProduct.name}</h1>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Product Images */}
+            <div className="space-y-4">
+              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4">Product Images</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {selectedProduct.images.map((image: string, index: number) => (
+                    <img 
+                      key={index}
+                      src={image} 
+                      alt={`${selectedProduct.name} ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-lg border"
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Product Details */}
+            <div className="space-y-4">
+              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4">Product Information</h3>
+                <div className="space-y-3">
+                  <div><strong>Price:</strong> {selectedProduct.price}</div>
+                  <div><strong>Category:</strong> {selectedProduct.category}</div>
+                  <div><strong>Duration:</strong> {selectedProduct.duration}</div>
+                  <div><strong>Stock:</strong> {selectedProduct.stock} available</div>
+                  <div><strong>Status:</strong> {getStatusBadge(selectedProduct.status)}</div>
+                  <div><strong>Reviews:</strong> ⭐ {selectedProduct.reviews}/5.0</div>
+                  <div><strong>Reports:</strong> {selectedProduct.reportCount}</div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4">Description</h3>
+                <p className="text-gray-600">{selectedProduct.description}</p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4">Seller Information</h3>
+                <div className="space-y-2">
+                  <div><strong>Store:</strong> {selectedProduct.seller}</div>
+                  <div><strong>Rating:</strong> ⭐ 4.7/5.0</div>
+                  <div><strong>Total Products:</strong> 24</div>
+                  <div><strong>Join Date:</strong> Jan 2023</div>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                  <Check className="w-4 h-4 mr-2" />
+                  Approve
+                </Button>
+                <Button variant="outline" className="flex-1 text-red-600 border-red-600 hover:bg-red-50">
+                  <X className="w-4 h-4 mr-2" />
+                  Reject
+                </Button>
+                <Button variant="outline" className="text-gray-600 hover:bg-gray-50">
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Products Management</h1>
-          <button className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
+          <Button className="flex items-center gap-2">
+            <Plus className="w-4 h-4" />
             Add Product
-          </button>
+          </Button>
         </div>
 
         {/* Search and Filter */}
@@ -68,13 +204,24 @@ const AdminProducts = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search products or sellers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
               />
             </div>
             <div className="flex gap-2">
+              <select 
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
+              >
+                {categories.map(category => (
+                  <option key={category} value={category}>
+                    {category === 'all' ? 'All Categories' : category}
+                  </option>
+                ))}
+              </select>
               <select 
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
@@ -108,11 +255,11 @@ const AdminProducts = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <tr key={product.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <img className="h-10 w-10 rounded-lg object-cover" src={product.image} alt={product.name} />
+                        <img className="h-10 w-10 rounded-lg object-cover" src={product.images[0]} alt={product.name} />
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">{product.name}</div>
                         </div>
@@ -124,7 +271,10 @@ const AdminProducts = () => {
                     <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(product.status)}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900 p-1 rounded">
+                        <button 
+                          onClick={() => setSelectedProduct(product)}
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                        >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button className="text-green-600 hover:text-green-900 p-1 rounded">

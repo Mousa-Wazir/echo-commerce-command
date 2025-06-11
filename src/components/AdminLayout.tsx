@@ -23,6 +23,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const handleLogout = () => {
     localStorage.removeItem('adminAuth');
+    console.log('Admin logged out');
     navigate('/admin/login');
   };
 
